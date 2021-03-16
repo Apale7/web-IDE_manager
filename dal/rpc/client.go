@@ -1,20 +1,21 @@
 package rpc
 
 import (
+	"web-IDE_manager/proto/docker_manager"
+	user_center "web-IDE_manager/proto/user-center"
+
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
-	containerManager "web-IDE_manager/proto/container_server"
-	user_center "web-IDE_manager/proto/user-center"
 )
 
 var (
-	userCenterClient       user_center.UserCenterClient
-	containerManagerClient containerManager.ManagerClient
+	userCenterClient    user_center.UserCenterClient
+	dockerManagerClient docker_manager.DockerManagerClient
 )
 
 func init() {
 	userCenterClient = user_center.NewUserCenterClient(getConn("localhost:8888"))
-	containerManagerClient = containerManager.NewManagerClient(getConn("193.112.177.167:8666"))
+	dockerManagerClient = docker_manager.NewDockerManagerClient(getConn("111.230.172.240:8888"))
 }
 
 func getConn(addr string) *grpc.ClientConn {

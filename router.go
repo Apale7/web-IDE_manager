@@ -8,5 +8,5 @@ import (
 
 func collectRoutes(r *gin.Engine) {
 	r.GET("/api/get_containers", handler.GetContainers)
-	r.GET("/api/get_images", handler.GetImages)
+	// r.GET("/api/get_images", handler.GetImages)
 }
