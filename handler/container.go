@@ -19,6 +19,7 @@ func GetContainers(c *gin.Context) {
 		utils.RetErr(c, constdef.ErrInvalidParams)
 		return
 	}
+	logrus.Infof("req: %+v", reqBody)
 	containers, err := rpc.GetContainers(ctx, uint(reqBody.UserID), reqBody.ContainerID)
 	if err != nil {
 		utils.RetErr(c, err)

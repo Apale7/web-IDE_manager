@@ -2,6 +2,7 @@ package rpc
 
 import (
 	"context"
+	"fmt"
 	"web-IDE_manager/proto/docker_manager"
 )
 
@@ -9,6 +10,7 @@ func GetContainers(ctx context.Context, userID uint, containerID string) (contai
 	req := &docker_manager.GetContainerRequest{UserId: uint32(userID), ContainerId: containerID}
 	resp, err := dockerManagerClient.GetContainer(ctx, req)
 	if err != nil {
+		fmt.Println(err)
 		return
 	}
 	return resp.Containers, nil

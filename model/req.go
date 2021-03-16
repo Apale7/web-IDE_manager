@@ -1,6 +1,6 @@
 package model
 
 type GetContainerReqBody struct {
-	UserID      uint32 `json:"user_id"`
-	ContainerID string `json:"container_id"`
+	UserID      int    `json:"user_id" form:"user_id"`
+	ContainerID string `json:"container_id" form:"container_id"`
 }
