@@ -1,9 +1,14 @@
 package rpc
 
+/*
+	所有的权限检测和参数校验由路由中间件完成，rpc不关注有没有权限
+*/
 import (
 	"context"
 	"fmt"
 	"web-IDE_manager/proto/docker_manager"
+
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 func GetContainers(ctx context.Context, userID uint, containerID string) (containers []*docker_manager.Container, err error) {
@@ -16,6 +21,41 @@ func GetContainers(ctx context.Context, userID uint, containerID string) (contai
 	return resp.Containers, nil
 }
 
+func DeleteContainer(ctx context.Context, userID uint, containerID string) (err error) {
+	req := &docker_manager.DeleteContainerRequest{
+		UserId:      uint32(userID),
+		ContainerId: containerID,
+	}
+	_, err = dockerManagerClient.DeleteContainer(ctx, req)
+	if err != nil {
+		return
+	}
+
+	return
+}
+
+func CreateContainer(ctx context.Context, userID uint, username, containerName string) (err error) {
+	req := &docker_manager.CreateContainerRequest{
+		Username:      username,
+		ContainerName: containerName,
+		UserId:        uint32(userID),
+	}
+	_, err = dockerManagerClient.CreateContainer(ctx, req)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func PruneContainer(ctx context.Context) (err error) {
+	_, err = dockerManagerClient.PruneContainers(ctx, &emptypb.Empty{})
+	if err != nil {
+		return
+	}
+
+	return
+}
+
 func GetImages(ctx context.Context, userID uint, imageID string) (images []*docker_manager.Image, err error) {
 	req := &docker_manager.GetImageRequest{UserId: uint32(userID), ImageId: imageID}
 	resp, err := dockerManagerClient.GetImage(ctx, req)
@@ -23,4 +63,37 @@ func GetImages(ctx context.Context, userID uint, imageID string) (images []*dock
 		return
 	}
 	return resp.Images, nil
+}
+
+func CreateImage(ctx context.Context, userID uint, dockerfile string) (err error) {
+	req := &docker_manager.CreateImageRequest{
+		UserId:     uint32(userID),
+		Dockerfile: []byte(dockerfile),
+	}
+	_, err = dockerManagerClient.CreateImage(ctx, req)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func DeleteImage(ctx context.Context, userID uint, imageID string) (err error) {
+	req := &docker_manager.DeleteImageRequest{
+		UserId:  uint32(userID),
+		ImageId: imageID,
+	}
+	_, err = dockerManagerClient.DeleteImage(ctx, req)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func PruneImage(ctx context.Context) (err error){
+	_, err = dockerManagerClient.PruneImages(ctx, &emptypb.Empty{})
+	if err != nil {
+		return
+	}
+	
+	return
 }

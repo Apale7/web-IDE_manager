@@ -9,7 +9,7 @@ mkdir -p output/bin output/config
 cp -r config/ output/config/
 
 
-name=`uname -o`
+name=`uname -s`
 if [[ $name =~ "Darwin" ]];then
     GOOS=darwin GOARCH=amd64 go build -o output/bin/${NAME}.out
     chmod +x output/bin/${NAME}.out

@@ -27,3 +27,7 @@ func GetContainers(c *gin.Context) {
 	}
 	utils.RetData(c, gin.H{"code": 0, "containers": containers})
 }
+
+func DeleteContainer(c *gin.Context) {
+	
+}
