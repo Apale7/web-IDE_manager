@@ -147,7 +147,7 @@ message ExitGroupResponse {
 
 message GetGroupRequest {
     Group group_info = 1;
-
+    uint32 member_id = 2;
     base.Base base = 255;
 }
 
@@ -169,6 +169,19 @@ message GetGroupMembersResponse {
     base.BaseResp base_resp = 255;
 }
 
+message GetUserInfoRequest {
+    uint32 user_id = 1;
+    string username = 2;
+
+    base.Base base = 255;
+}
+
+message GetUserInfoResponse {
+    UserExtra user_info = 1;
+    string username = 2;
+    
+    base.BaseResp base_resp = 255;
+}
 
 service UserCenter
 {
@@ -178,6 +191,7 @@ service UserCenter
     rpc Delete(DeleteRequest) returns (DeleteResponse) {}
     rpc CheckToken(CheckTokenRequest) returns (CheckTokenResponse) {}
     rpc Refresh(RefreshRequest) returns (RefreshResponse) {}
+    rpc GetUserInfo(GetUserInfoRequest) returns (GetUserInfoResponse) {}
 // 组织管理相关
     rpc CreateGroup(CreateGroupRequest) returns (CreateGroupResponse) {}
     rpc GetGroup(GetGroupRequest) returns (GetGroupResponse) {}

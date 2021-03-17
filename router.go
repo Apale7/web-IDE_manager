@@ -7,6 +7,19 @@ import (
 )
 
 func collectRoutes(r *gin.Engine) {
-	r.GET("/api/get_containers", handler.GetContainers)
-	// r.GET("/api/get_images", handler.GetImages)
+	api := r.Group("/api")
+	{
+		container := api.Group("/container")
+		{
+			container.GET("/get_containers", handler.GetContainers)
+		}
+		image := api.Group("/image")
+		{
+			image.GET("/get_images", handler.GetImages)
+		}
+		group := api.Group("/group")
+		{
+			group.GET("/get_groups", handler.GetGroup)
+		}
+	}
 }

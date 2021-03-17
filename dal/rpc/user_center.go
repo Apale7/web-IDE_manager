@@ -4,6 +4,7 @@ import (
 	"context"
 	user_center "web-IDE_manager/proto/user-center"
 
+	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 )
 
@@ -92,9 +93,10 @@ func ExitGroup(ctx context.Context, userID, groupID uint) (err error) {
 	return
 }
 
-func GetGroup(ctx context.Context, groupInfo *user_center.Group) (groups []*user_center.Group, err error) {
+func GetGroup(ctx context.Context, groupInfo *user_center.Group, memberID uint32) (groups []*user_center.Group, err error) {
 	req := &user_center.GetGroupRequest{
 		GroupInfo: groupInfo,
+		MemberId:  memberID,
 	}
 	resp, err := userCenterClient.GetGroup(ctx, req)
 	if err != nil {
@@ -103,7 +105,7 @@ func GetGroup(ctx context.Context, groupInfo *user_center.Group) (groups []*user
 	return resp.Groups, nil
 }
 
-func GetGroupMembers(ctx context.Context, groupID uint) (members []*user_center.UserExtra,err error) {
+func GetGroupMembers(ctx context.Context, groupID uint) (members []*user_center.UserExtra, err error) {
 	req := &user_center.GetGroupMembersRequest{
 		GroupId: uint32(groupID),
 	}
@@ -112,4 +114,17 @@ func GetGroupMembers(ctx context.Context, groupID uint) (members []*user_center.
 		return
 	}
 	return resp.Members, nil
+}
+
+func GetUserInfo(ctx context.Context, userID uint32, username string) (resp *user_center.GetUserInfoResponse, err error) {
+	req := &user_center.GetUserInfoRequest{
+		UserId: userID,
+		Username: username,
+	}
+	resp, err = userCenterClient.GetUserInfo(ctx, req)
+	if err != nil {
+		err = errors.WithStack(err)
+		return
+	}
+	return
 }

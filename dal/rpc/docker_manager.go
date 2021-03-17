@@ -6,6 +6,7 @@ package rpc
 import (
 	"context"
 	"fmt"
+	"web-IDE_manager/model"
 	"web-IDE_manager/proto/docker_manager"
 
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -34,11 +35,12 @@ func DeleteContainer(ctx context.Context, userID uint, containerID string) (err 
 	return
 }
 
-func CreateContainer(ctx context.Context, userID uint, username, containerName string) (err error) {
+func CreateContainer(ctx context.Context, reqParams model.CreateContainerReqBody) (err error) {
 	req := &docker_manager.CreateContainerRequest{
-		Username:      username,
-		ContainerName: containerName,
-		UserId:        uint32(userID),
+		Username:      reqParams.Username,
+		ContainerName: reqParams.ContainerName,
+		UserId:        uint32(reqParams.UserID),
+		ImageId:       reqParams.ImageID,
 	}
 	_, err = dockerManagerClient.CreateContainer(ctx, req)
 	if err != nil {
@@ -56,8 +58,8 @@ func PruneContainer(ctx context.Context) (err error) {
 	return
 }
 
-func GetImages(ctx context.Context, userID uint, imageID string) (images []*docker_manager.Image, err error) {
-	req := &docker_manager.GetImageRequest{UserId: uint32(userID), ImageId: imageID}
+func GetImages(ctx context.Context, userID uint, imageID string, isAdmin bool) (images []*docker_manager.Image, err error) {
+	req := &docker_manager.GetImageRequest{UserId: uint32(userID), ImageId: imageID, IsAdmin: isAdmin}
 	resp, err := dockerManagerClient.GetImage(ctx, req)
 	if err != nil {
 		return
@@ -89,11 +91,11 @@ func DeleteImage(ctx context.Context, userID uint, imageID string) (err error) {
 	return
 }
 
-func PruneImage(ctx context.Context) (err error){
+func PruneImage(ctx context.Context) (err error) {
 	_, err = dockerManagerClient.PruneImages(ctx, &emptypb.Empty{})
 	if err != nil {
 		return
 	}
-	
+
 	return
 }
