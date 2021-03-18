@@ -4,6 +4,7 @@ import (
 	"context"
 	"web-IDE_manager/dal/rpc"
 	"web-IDE_manager/model"
+	user_center "web-IDE_manager/proto/user-center"
 
 	"github.com/Apale7/common/constdef"
 	"github.com/Apale7/common/utils"
@@ -22,7 +23,13 @@ func GetGroup(c *gin.Context) {
 
 	logrus.Infof("get reqBody: %+v", reqBody)
 
-	groups, err := rpc.GetGroup(ctx, &reqBody.Group, reqBody.MemBerID)
+	groupInfo := &user_center.Group{
+		Id:        reqBody.GroupID,
+		OwnerId:   reqBody.OwnerID,
+		GroupName: reqBody.GroupName,
+	}
+
+	groups, err := rpc.GetGroup(ctx, groupInfo, reqBody.MemBerID)
 	if err != nil {
 		logrus.Warnf("GetGroup error, err: %v", err)
 		utils.RetErr(c, err)

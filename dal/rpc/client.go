@@ -14,9 +14,10 @@ var (
 )
 
 func init() {
-	userCenterClient = user_center.NewUserCenterClient(getConn("111.230.172.240:9999"))
-	dockerManagerClient = docker_manager.NewDockerManagerClient(getConn("111.230.172.240:8888"))
-	// dockerManagerClient = docker_manager.NewDockerManagerClient(getConn("localhost:8888"))
+	// userCenterClient = user_center.NewUserCenterClient(getConn("111.230.172.240:9999"))
+	userCenterClient = user_center.NewUserCenterClient(getConn("localhost:9999"))
+	// dockerManagerClient = docker_manager.NewDockerManagerClient(getConn("111.230.172.240:8888"))
+	dockerManagerClient = docker_manager.NewDockerManagerClient(getConn("localhost:8888"))
 }
 
 func getConn(addr string) *grpc.ClientConn {

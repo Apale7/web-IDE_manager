@@ -118,7 +118,7 @@ func GetGroupMembers(ctx context.Context, groupID uint) (members []*user_center.
 
 func GetUserInfo(ctx context.Context, userID uint32, username string) (resp *user_center.GetUserInfoResponse, err error) {
 	req := &user_center.GetUserInfoRequest{
-		UserId: userID,
+		UserId:   userID,
 		Username: username,
 	}
 	resp, err = userCenterClient.GetUserInfo(ctx, req)

@@ -1,7 +1,5 @@
 package model
 
-import user_center "web-IDE_manager/proto/user-center"
-
 type ContainerbaseInfo struct {
 	UserID      int    `json:"user_id" form:"user_id"`
 	ContainerID string `json:"container_id" form:"container_id"`
@@ -27,8 +25,10 @@ type CreateContainerReqBody struct {
 }
 
 type GetGroupReqBody struct {
-	user_center.Group
-	MemBerID uint32 `json:"member_id" form:"member_id"`
+	GroupID   uint32 `json:"group_id" form:"group_id"`
+	OwnerID   uint32 `json:"owner_id" form:"owner_id"`
+	MemBerID  uint32 `json:"member_id" form:"member_id"`
+	GroupName string `json:"group_name" form:"group_name"`
 }
 
 type GetImageReqBody struct {
