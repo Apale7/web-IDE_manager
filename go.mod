@@ -3,7 +3,7 @@ module web-IDE_manager
 go 1.16
 
 require (
-	github.com/Apale7/common v0.0.0-20210315143158-9a2a14a44484
+	github.com/Apale7/common v0.0.0-20210319071252-40b3780d6438
 	github.com/gin-gonic/gin v1.6.3
 	github.com/golang/protobuf v1.4.2
 	github.com/pkg/errors v0.9.1

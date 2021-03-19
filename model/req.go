@@ -36,3 +36,29 @@ type GetImageReqBody struct {
 	// 是管理员，则返回管理员拥有的所有image；非管理员，则返回所有有权限使用的image
 	IsAdmin bool `json:"is_admin" form:"is_admin"`
 }
+
+type CreateImageReqBody struct {
+	UserID     uint32 `json:"user_id" form:"user_id"`
+	Dockerfile string `json:"dockerfile" form:"dockerfile"`
+}
+
+type DeleteImageReqBody struct {
+	UserID  uint32 `json:"user_id" form:"user_id"`
+	ImageID string `json:"image_id" form:"image_id"`
+}
+type LoginReq struct {
+	Base
+	Username string `json:"username" form:"username"`
+	Password string `json:"password" form:"password"`
+}
+
+type RefreshReq struct {
+	Base
+	RefreshToken string `json:"refresh_token"`
+}
+
+// GetFileReq GetFile和GetDir公用
+type GetFileReq struct {
+	ContainerID string `json:"container_id" form:"container_id"`
+	Path        string `json:"path" form:"path"`
+}

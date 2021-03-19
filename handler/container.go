@@ -43,7 +43,7 @@ func GetContainers(c *gin.Context) {
 func CreateContainer(c *gin.Context) {
 	ctx := context.Background()
 	var reqBody model.CreateContainerReqBody
-	if err := c.ShouldBind(&reqBody); err != nil || checkCreateContainer(reqBody) {
+	if err := c.ShouldBind(&reqBody); err != nil || !checkCreateContainer(reqBody) {
 		logrus.Warnf("Bind error, err: %v", err)
 		utils.RetErr(c, constdef.ErrInvalidParams)
 		return
@@ -62,9 +62,32 @@ func CreateContainer(c *gin.Context) {
 
 	logrus.Infof("req: %+v", reqBody)
 
-	rpc.CreateContainer(ctx, reqBody)
+	err := rpc.CreateContainer(ctx, reqBody)
+	if err != nil {
+		utils.RetErr(c, errors.New("创建容器失败"))
+		logrus.Warnf("CreateContainer error, err: %v", err)
+		return
+	}
+	utils.RetSuccess(c)
 }
 
 func DeleteContainer(c *gin.Context) {
+	ctx := context.Background()
+	var reqBody model.DeleteContainerReqBody
+	if err := c.ShouldBind(&reqBody); err != nil {
+		logrus.Warnf("Bind error, err: %v", err)
+		utils.RetErr(c, constdef.ErrInvalidParams)
+		return
+	}
 
+	logrus.Infof("req: %+v", reqBody)
+
+	err := rpc.DeleteContainer(ctx, uint(reqBody.UserID), reqBody.ContainerID)
+
+	if err != nil {
+		utils.RetErr(c, errors.New("删除容器失败"))
+		logrus.Warnf("DeleteContainer error, err: %v", err)
+		return
+	}
+	utils.RetSuccess(c)
 }
