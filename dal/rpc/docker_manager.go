@@ -67,10 +67,16 @@ func GetImages(ctx context.Context, userID uint, imageID string, isAdmin bool) (
 	return resp.Images, nil
 }
 
-func CreateImage(ctx context.Context, userID uint, dockerfile string) (err error) {
+func CreateImage(ctx context.Context, params model.CreateImageReqBody) (err error) {
 	req := &docker_manager.CreateImageRequest{
-		UserId:     uint32(userID),
-		Dockerfile: []byte(dockerfile),
+		Type:          params.Type,
+		UserId:        params.UserID,
+		Dockerfile:    []byte(params.Dockerfile),
+		RepositoryUrl: params.RespositryURL,
+		Tag:           params.Tag,
+		Username:      params.Username,
+		Password:      params.Password,
+		ImageUrl:      params.ImageUrl,
 	}
 	_, err = dockerManagerClient.CreateImage(ctx, req)
 	if err != nil {

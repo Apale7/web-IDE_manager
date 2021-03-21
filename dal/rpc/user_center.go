@@ -93,10 +93,11 @@ func ExitGroup(ctx context.Context, userID, groupID uint) (err error) {
 	return
 }
 
-func GetGroup(ctx context.Context, groupInfo *user_center.Group, memberID uint32) (groups []*user_center.Group, err error) {
+func GetGroup(ctx context.Context, groupInfo *user_center.Group, memberID uint32, haveMe bool) (groups []*user_center.Group, err error) {
 	req := &user_center.GetGroupRequest{
 		GroupInfo: groupInfo,
 		MemberId:  memberID,
+		HaveMe:    haveMe,
 	}
 	resp, err := userCenterClient.GetGroup(ctx, req)
 	if err != nil {

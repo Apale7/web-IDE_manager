@@ -42,7 +42,7 @@ func CreateImage(c *gin.Context) {
 	}
 	logrus.Infof("get reqBody: %+v", reqBody)
 
-	err := rpc.CreateImage(ctx, uint(reqBody.UserID), reqBody.Dockerfile)
+	err := rpc.CreateImage(ctx, reqBody)
 	if err != nil {
 		logrus.Warnf("CreateImage error, err: %v", err)
 		utils.RetErr(c, errors.New("创建镜像失败"))

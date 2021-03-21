@@ -1,5 +1,7 @@
 package model
 
+import "web-IDE_manager/proto/docker_manager"
+
 type ContainerbaseInfo struct {
 	UserID      int    `json:"user_id" form:"user_id"`
 	ContainerID string `json:"container_id" form:"container_id"`
@@ -29,6 +31,7 @@ type GetGroupReqBody struct {
 	OwnerID   uint32 `json:"owner_id" form:"owner_id"`
 	MemBerID  uint32 `json:"member_id" form:"member_id"`
 	GroupName string `json:"group_name" form:"group_name"`
+	HaveMe    bool   `json:"have_me" form:"have_me"`
 }
 
 type GetImageReqBody struct {
@@ -38,8 +41,19 @@ type GetImageReqBody struct {
 }
 
 type CreateImageReqBody struct {
-	UserID     uint32 `json:"user_id" form:"user_id"`
+	Type docker_manager.CreateImageType
+
+	UserID uint32 `json:"user_id" form:"user_id"`
+	// by dockerfile
 	Dockerfile string `json:"dockerfile" form:"dockerfile"`
+
+	// by pull
+	RespositryURL string `json:"respositry_url" form:"respositry_url"`
+	Tag           string `json:"tag" form:"tag"`
+	Username      string `json:"username" form:"username"`
+	Password      string `json:"password" form:"password"`
+	// by upload
+	ImageUrl string `json:"image_url" form:"image_url"`
 }
 
 type DeleteImageReqBody struct {
@@ -57,8 +71,12 @@ type RefreshReq struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
-// GetFileReq GetFile和GetDir公用
-type GetFileReq struct {
-	ContainerID string `json:"container_id" form:"container_id"`
-	Path        string `json:"path" form:"path"`
+type CreateGroupReqBody struct {
+	UserID    uint32 `json:"user_id" form:"user_id"`
+	GroupName string `json:"group_name" form:"group_name"`
+}
+
+type JoinGroupReqBody struct {
+	UserID  uint32 `json:"user_id" form:"user_id"`
+	GroupID uint32 `json:"group_id" form:"group_id"`
 }
