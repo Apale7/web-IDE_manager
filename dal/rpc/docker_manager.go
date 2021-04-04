@@ -105,3 +105,21 @@ func PruneImage(ctx context.Context) (err error) {
 
 	return
 }
+
+func StartContainer(ctx context.Context, userID uint, containerID string) (err error) {
+	req := &docker_manager.StartContainerRequest{UserId: uint32(userID), ContainerId: containerID}
+	_, err = dockerManagerClient.StartContainer(ctx, req)
+	return
+}
+
+func StopContainer(ctx context.Context, userID uint, containerID string) (err error) {
+	req := &docker_manager.StopContainerRequest{UserId: uint32(userID), ContainerId: containerID}
+	_, err = dockerManagerClient.StopContainer(ctx, req)
+	return
+}
+
+func RestartContainer(ctx context.Context, userID uint, containerID string) (err error) {
+	req := &docker_manager.RestartContainerRequest{UserId: uint32(userID), ContainerId: containerID}
+	_, err = dockerManagerClient.RestartContainer(ctx, req)
+	return
+}

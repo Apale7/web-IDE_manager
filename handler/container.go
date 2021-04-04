@@ -91,3 +91,60 @@ func DeleteContainer(c *gin.Context) {
 	}
 	utils.RetSuccess(c)
 }
+
+func StartContainer(c *gin.Context) {
+	ctx := context.Background()
+	var reqBody model.StartContainerReqBody
+	if err := c.ShouldBind(&reqBody); err != nil {
+		logrus.Warnf("Bind error, err: %v", err)
+		utils.RetErr(c, constdef.ErrInvalidParams)
+		return
+	}
+	logrus.Infof("req: %+v", reqBody)
+
+	err := rpc.StartContainer(ctx, uint(reqBody.UserID), reqBody.ContainerID)
+	if err != nil {
+		utils.RetErr(c, errors.New("启动容器失败"))
+		logrus.Warnf("StartContainer error, err: %v", err)
+		return
+	}
+	utils.RetSuccess(c)
+}
+
+func StopContainer(c *gin.Context) {
+	ctx := context.Background()
+	var reqBody model.StopContainerReqBody
+	if err := c.ShouldBind(&reqBody); err != nil {
+		logrus.Warnf("Bind error, err: %v", err)
+		utils.RetErr(c, constdef.ErrInvalidParams)
+		return
+	}
+	logrus.Infof("req: %+v", reqBody)
+
+	err := rpc.StopContainer(ctx, uint(reqBody.UserID), reqBody.ContainerID)
+	if err != nil {
+		utils.RetErr(c, errors.New("关闭容器失败"))
+		logrus.Warnf("StopContainer error, err: %v", err)
+		return
+	}
+	utils.RetSuccess(c)
+}
+
+func RestartContainer(c *gin.Context) {
+	ctx := context.Background()
+	var reqBody model.RestartContainerReqBody
+	if err := c.ShouldBind(&reqBody); err != nil {
+		logrus.Warnf("Bind error, err: %v", err)
+		utils.RetErr(c, constdef.ErrInvalidParams)
+		return
+	}
+	logrus.Infof("req: %+v", reqBody)
+
+	err := rpc.RestartContainer(ctx, uint(reqBody.UserID), reqBody.ContainerID)
+	if err != nil {
+		utils.RetErr(c, errors.New("重启容器失败"))
+		logrus.Warnf("RestartContainer error, err: %v", err)
+		return
+	}
+	utils.RetSuccess(c)
+}

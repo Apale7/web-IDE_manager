@@ -8,13 +8,16 @@ import (
 )
 
 func collectRoutes(r *gin.Engine) {
-	api := r.Group("/api")
+	api := r.Group("/admin_api")
 	{
 		container := api.Group("/container", middleware.JWTAuthMiddleware)
 		{
 			container.GET("/get", handler.GetContainers)
 			container.POST("/create", handler.CreateContainer)
 			container.POST("/delete", handler.DeleteContainer)
+			container.POST("/start", handler.StartContainer)
+			container.POST("/stop", handler.StopContainer)
+			container.POST("/restart", handler.RestartContainer)
 		}
 		image := api.Group("/image", middleware.JWTAuthMiddleware)
 		{

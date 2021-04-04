@@ -20,6 +20,18 @@ type DeleteContainerReqBody struct {
 	ContainerbaseInfo
 }
 
+type StartContainerReqBody struct {
+	ContainerbaseInfo
+}
+
+type StopContainerReqBody struct {
+	ContainerbaseInfo
+}
+
+type RestartContainerReqBody struct {
+	ContainerbaseInfo
+}
+
 type CreateContainerReqBody struct {
 	ImageBaseInfo
 	ContainerName string `json:"container_name" form:"container_name"`
