@@ -14,3 +14,8 @@ type LoginResp struct {
 	user_center.LoginResponse
 	Auth []string `json:"auth"`
 }
+
+type GetGroupResp struct {
+	user_center.Group
+	Owner string `json:"owner" form:"owner"`
+}

@@ -36,7 +36,17 @@ func GetGroup(c *gin.Context) {
 		utils.RetErr(c, err)
 		return
 	}
-	utils.RetData(c, gin.H{"groups": groups})
+	groupsResp := make([]model.GetGroupResp, len(groups))
+	for i, g := range groups {
+		groupsResp[i].Group = *g
+		resp, err := rpc.GetUserInfo(ctx, g.OwnerId, "")
+		if err != nil {
+			logrus.Warnf("GetUserInfo error, err: %v", err)
+			continue
+		}
+		groupsResp[i].Owner = resp.UserInfo.Nickname
+	}
+	utils.RetData(c, gin.H{"groups": groupsResp})
 	logrus.Infof("success return %d group info", len(groups))
 }
 

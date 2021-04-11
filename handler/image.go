@@ -28,6 +28,7 @@ func GetImages(c *gin.Context) {
 		utils.RetErr(c, err)
 		return
 	}
+
 	utils.RetData(c, gin.H{"images": images})
 	logrus.Infof("successful return %d image info", len(images))
 }
