@@ -15,7 +15,7 @@ func init() {
 	logrus.SetReportCaller(true)
 	logrus.SetFormatter(&logrus.TextFormatter{})
 	logrus.SetOutput(os.Stdout)
-	port = os.Getenv("web_ide_manager")
+	port = os.Getenv("web_ide_manager_port")
 	if port == "" {
 		port = "3070"
 	}
